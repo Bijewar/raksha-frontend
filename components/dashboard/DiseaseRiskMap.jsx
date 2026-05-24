@@ -1,251 +1,212 @@
 'use client';
 
-import { useState } from 'react';
-import { MapPin } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import { GlassPanel } from '@/components/base/GlassPanel';
 
-// State coordinates and risk data for India heatmap
-const STATES_HEATMAP = [
-  // High risk states (red)
-  { name: 'Delhi', risk: 'high', x: 60, y: 18, width: 8, height: 6, cases: 298, activeRate: 8.5 },
-  { name: 'Madhya Pradesh', risk: 'high', x: 35, y: 35, width: 18, height: 16, cases: 1012, activeRate: 7.8 },
-  { name: 'Maharashtra', risk: 'high', x: 20, y: 45, width: 15, height: 18, cases: 468, activeRate: 7.2 },
-  
-  // Medium risk states (yellow/orange)
-  { name: 'Rajasthan', risk: 'medium', x: 25, y: 20, width: 18, height: 18, cases: 156, activeRate: 4.8 },
-  { name: 'Gujarat', risk: 'medium', x: 12, y: 30, width: 12, height: 18, cases: 219, activeRate: 5.1 },
-  { name: 'Uttar Pradesh', risk: 'medium', x: 50, y: 25, width: 20, height: 15, cases: 134, activeRate: 3.2 },
-  { name: 'Telangana', risk: 'medium', x: 42, y: 55, width: 12, height: 12, cases: 87, activeRate: 2.9 },
-  
-  // Low risk states (green)
-  { name: 'Tamil Nadu', risk: 'low', x: 42, y: 72, width: 14, height: 12, cases: 45, activeRate: 1.2 },
-  { name: 'Karnataka', risk: 'low', x: 28, y: 62, width: 14, height: 14, cases: 52, activeRate: 1.5 },
-  { name: 'Andhra Pradesh', risk: 'low', x: 40, y: 65, width: 15, height: 12, cases: 38, activeRate: 1.1 },
-  { name: 'Kerala', risk: 'low', x: 32, y: 80, width: 8, height: 8, cases: 25, activeRate: 0.8 },
-];
+// GeoJSON URL for India state boundaries
+const geoUrl = 'https://raw.githubusercontent.com/Giveninc/indian-states-topojson/main/india.json';
+
+// Disease risk data by state name
+const stateRiskData = {
+  'Andaman and Nicobar': { risk: 30, cases: 45, trend: 0.8 },
+  'Andhra Pradesh': { risk: 42, cases: 234, trend: 1.2 },
+  'Arunachal Pradesh': { risk: 25, cases: 12, trend: 0.3 },
+  'Assam': { risk: 48, cases: 289, trend: 1.8 },
+  'Bihar': { risk: 55, cases: 567, trend: 2.3 },
+  'Chandigarh': { risk: 50, cases: 156, trend: 1.5 },
+  'Chhattisgarh': { risk: 52, cases: 423, trend: 1.9 },
+  'Dadra and Nagar Haveli and Daman and Diu': { risk: 35, cases: 78, trend: 0.6 },
+  'Delhi': { risk: 92, cases: 3245, trend: 8.5 },
+  'Goa': { risk: 38, cases: 134, trend: 0.9 },
+  'Gujarat': { risk: 65, cases: 1567, trend: 4.2 },
+  'Haryana': { risk: 58, cases: 789, trend: 2.8 },
+  'Himachal Pradesh': { risk: 32, cases: 89, trend: 0.6 },
+  'Jharkhand': { risk: 54, cases: 456, trend: 2.1 },
+  'Karnataka': { risk: 60, cases: 1234, trend: 3.2 },
+  'Kerala': { risk: 28, cases: 67, trend: 0.5 },
+  'Ladakh': { risk: 20, cases: 23, trend: 0.2 },
+  'Lakshadweep': { risk: 18, cases: 15, trend: 0.1 },
+  'Madhya Pradesh': { risk: 78, cases: 1956, trend: 6.2 },
+  'Maharashtra': { risk: 85, cases: 2891, trend: 7.8 },
+  'Manipur': { risk: 35, cases: 105, trend: 0.7 },
+  'Meghalaya': { risk: 42, cases: 178, trend: 1.1 },
+  'Mizoram': { risk: 30, cases: 67, trend: 0.4 },
+  'Nagaland': { risk: 28, cases: 45, trend: 0.3 },
+  'Odisha': { risk: 50, cases: 534, trend: 1.9 },
+  'Puducherry': { risk: 45, cases: 256, trend: 1.4 },
+  'Punjab': { risk: 62, cases: 1123, trend: 3.5 },
+  'Rajasthan': { risk: 68, cases: 1789, trend: 4.9 },
+  'Sikkim': { risk: 22, cases: 34, trend: 0.3 },
+  'Tamil Nadu': { risk: 55, cases: 1205, trend: 2.8 },
+  'Telangana': { risk: 48, cases: 612, trend: 1.8 },
+  'Tripura': { risk: 38, cases: 145, trend: 0.8 },
+  'Uttar Pradesh': { risk: 72, cases: 2103, trend: 5.9 },
+  'Uttarakhand': { risk: 40, cases: 267, trend: 1.1 },
+  'West Bengal': { risk: 62, cases: 1456, trend: 3.4 },
+};
 
 const getRiskColor = (risk) => {
-  switch (risk) {
-    case 'high':
-      return {
-        fill: '#ef4444',
-        fillOpacity: 0.7,
-        strokeColor: '#dc2626',
-        hoverFill: '#ff6b6b',
-        glowColor: 'rgb(239, 68, 68)',
-        label: 'High Risk',
-      };
-    case 'medium':
-      return {
-        fill: '#f59e0b',
-        fillOpacity: 0.65,
-        strokeColor: '#d97706',
-        hoverFill: '#fbbf24',
-        glowColor: 'rgb(245, 158, 11)',
-        label: 'Medium Risk',
-      };
-    case 'low':
-    default:
-      return {
-        fill: '#10b981',
-        fillOpacity: 0.6,
-        strokeColor: '#059669',
-        hoverFill: '#6ee7b7',
-        glowColor: 'rgb(16, 185, 129)',
-        label: 'Low Risk',
-      };
-  }
+  if (risk >= 80) return { color: '#ef4444', label: 'Critical' };
+  if (risk >= 60) return { color: '#f97316', label: 'High' };
+  if (risk >= 40) return { color: '#eab308', label: 'Moderate' };
+  return { color: '#22c55e', label: 'Low' };
 };
 
 export function DiseaseRiskMap() {
-  const [hoveredState, setHoveredState] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
+  const [geoData, setGeoData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(geoUrl)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('[v0] GeoJSON loaded successfully');
+        setGeoData(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error('[v0] Error loading GeoJSON:', err);
+        setLoading(false);
+      });
+  }, []);
+
+  const getStateName = (properties) => {
+    return properties.name || properties.NAME || properties.st_nm || 'Unknown';
+  };
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">Disease Risk Heatmap</h2>
-        <p className="text-muted-foreground">Geographic intensity of disease outbreak across India</p>
+        <h2 className="text-2xl md:text-3xl font-bold text-cyan-400 mb-2">Disease Risk Heatmap</h2>
+        <p className="text-gray-400">Geographic visualization of disease risk intensity across Indian states</p>
       </div>
 
       <GlassPanel>
         <div className="space-y-6">
-          {/* SVG Heatmap */}
-          <div className="w-full bg-gradient-to-br from-slate-900 to-slate-800 rounded-lg overflow-hidden border border-white/10 p-4">
-            <svg
-              viewBox="0 0 100 100"
-              className="w-full"
-              preserveAspectRatio="xMidYMid meet"
-            >
-              {/* Background */}
-              <defs>
-                <filter id="glow-high">
-                  <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
-                  <feMerge>
-                    <feMergeNode in="coloredBlur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-                <filter id="glow-medium">
-                  <feGaussianBlur stdDeviation="1.2" result="coloredBlur" />
-                  <feMerge>
-                    <feMergeNode in="coloredBlur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-                <filter id="glow-low">
-                  <feGaussianBlur stdDeviation="1" result="coloredBlur" />
-                  <feMerge>
-                    <feMergeNode in="coloredBlur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
-
-              <rect width="100" height="100" fill="#1e293b" opacity="0.5" />
-
-              {/* State regions */}
-              {STATES_HEATMAP.map((state) => {
-                const colors = getRiskColor(state.risk);
-                const isHovered = hoveredState?.name === state.name;
-                const isSelected = selectedState?.name === state.name;
-
-                return (
-                  <g key={state.name}>
-                    {/* Region rectangle with glow effect */}
-                    <rect
-                      x={state.x}
-                      y={state.y}
-                      width={state.width}
-                      height={state.height}
-                      fill={isHovered || isSelected ? colors.hoverFill : colors.fill}
-                      opacity={isHovered || isSelected ? 0.85 : colors.fillOpacity}
-                      stroke={colors.strokeColor}
-                      strokeWidth="0.3"
-                      filter={`url(#glow-${state.risk})`}
-                      className="cursor-pointer transition-all duration-300"
-                      onMouseEnter={() => setHoveredState(state)}
-                      onMouseLeave={() => setHoveredState(null)}
-                      onClick={() => setSelectedState(state)}
-                    />
-
-                    {/* State label */}
-                    <text
-                      x={state.x + state.width / 2}
-                      y={state.y + state.height / 2}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                      className="pointer-events-none select-none"
-                      fontSize="2.5"
-                      fontWeight="600"
-                      fill="#ffffff"
-                      opacity={isHovered || isSelected ? 1 : 0.4}
-                      style={{
-                        textShadow: `0 0 8px ${colors.glowColor}`,
-                        transition: 'opacity 0.3s',
-                      }}
-                    >
-                      {state.name.split(' ')[0]}
-                    </text>
-
-                    {/* Risk indicator dot */}
-                    <circle
-                      cx={state.x + state.width - 1}
-                      cy={state.y + 1}
-                      r="0.6"
-                      fill={colors.fill}
-                      opacity={isHovered || isSelected ? 1 : 0.8}
-                      filter={`url(#glow-${state.risk})`}
-                    />
-                  </g>
-                );
-              })}
-            </svg>
-          </div>
-
-          {/* Legend */}
-          <div className="grid grid-cols-3 gap-4">
-            {['high', 'medium', 'low'].map((riskLevel) => {
-              const colors = getRiskColor(riskLevel);
-              const count = STATES_HEATMAP.filter(s => s.risk === riskLevel).length;
-
-              return (
-                <div
-                  key={riskLevel}
-                  className="flex items-center gap-3 p-4 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 transition-colors"
-                >
-                  <div
-                    className="w-4 h-4 rounded flex-shrink-0"
-                    style={{
-                      backgroundColor: colors.fill,
-                      boxShadow: `0 0 12px ${colors.glowColor}`,
-                      opacity: colors.fillOpacity,
-                    }}
-                  />
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">{colors.label}</p>
-                    <p className="text-xs text-muted-foreground">{count} region{count !== 1 ? 's' : ''}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Selected State Details */}
-          {selectedState && (
-            <div className="relative p-6 rounded-lg border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-transparent pointer-events-none" />
-
-              <div className="relative z-10 space-y-4">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
-                    <p className="text-sm text-muted-foreground mb-1">Selected Region</p>
-                    <h3 className="text-2xl font-bold text-foreground">{selectedState.name}</h3>
-                  </div>
-                  <div
-                    className="px-4 py-2 rounded-lg font-semibold text-sm whitespace-nowrap"
-                    style={{
-                      backgroundColor: getRiskColor(selectedState.risk).fill + '33',
-                      color: getRiskColor(selectedState.risk).fill,
-                      border: `1px solid ${getRiskColor(selectedState.risk).fill}`,
-                    }}
-                  >
-                    {getRiskColor(selectedState.risk).label}
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-4 gap-4 pt-4 border-t border-white/5">
-                  <div>
-                    <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Active Cases</p>
-                    <p className="text-2xl font-bold text-cyan-400">{selectedState.cases}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Activity Rate</p>
-                    <p className="text-2xl font-bold text-blue-400">{selectedState.activeRate.toFixed(1)}/10</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Trend</p>
-                    <p className="text-2xl font-bold text-orange-400">↑ 12%</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Response</p>
-                    <p className="text-2xl font-bold text-green-400">Active</p>
-                  </div>
-                </div>
-              </div>
+          {loading && (
+            <div className="h-96 flex items-center justify-center text-gray-400">
+              Loading India map data...
             </div>
           )}
 
-          {/* Info Panel */}
-          <div className="flex items-start gap-3 p-4 rounded-lg bg-blue-500/10 border border-blue-500/20">
-            <MapPin size={18} className="text-blue-400 flex-shrink-0 mt-0.5" />
-            <div className="space-y-1">
-              <p className="text-sm font-semibold text-blue-400">Interactive Heatmap</p>
-              <p className="text-xs text-muted-foreground">
-                Colors indicate disease risk intensity. Hover or click regions for detailed metrics and outbreak information.
-              </p>
-            </div>
-          </div>
+          {geoData && !loading && (
+            <>
+              {/* Map Container */}
+              <div className="bg-gradient-to-br from-slate-900 to-slate-950 rounded-lg overflow-hidden border border-cyan-400/20 p-4">
+                <ComposableMap projection="geoMercator" projectionConfig={{ scale: 1000, center: [78.8, 22.5] }}>
+                  <Geographies geography={geoData}>
+                    {({ geographies }) =>
+                      geographies.map((geo) => {
+                        const stateName = getStateName(geo.properties);
+                        const riskData = stateRiskData[stateName];
+                        const riskValue = riskData?.risk || 30;
+                        const { color } = getRiskColor(riskValue);
+                        const isSelected = selectedState?.name === stateName;
+
+                        return (
+                          <Geography
+                            key={geo.rsmKey}
+                            geography={geo}
+                            style={{
+                              default: {
+                                fill: color,
+                                stroke: '#1e293b',
+                                strokeWidth: 0.75,
+                                outline: 'none',
+                                cursor: 'pointer',
+                                opacity: 0.8,
+                                transition: 'all 0.3s ease',
+                              },
+                              hover: {
+                                fill: color,
+                                stroke: '#00d9ff',
+                                strokeWidth: 1.5,
+                                outline: 'none',
+                                cursor: 'pointer',
+                                opacity: 1,
+                                filter: 'drop-shadow(0 0 8px rgba(0, 217, 255, 0.6))',
+                              },
+                              pressed: {
+                                fill: color,
+                                stroke: '#00d9ff',
+                                strokeWidth: 2,
+                                outline: 'none',
+                              },
+                            }}
+                            onClick={() => setSelectedState(riskData ? { name: stateName, ...riskData } : null)}
+                          />
+                        );
+                      })
+                    }
+                  </Geographies>
+                </ComposableMap>
+              </div>
+
+              {/* Legend */}
+              <div className="grid grid-cols-4 gap-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded bg-red-500" />
+                  <span className="text-sm text-gray-300">Critical (80+)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded bg-orange-500" />
+                  <span className="text-sm text-gray-300">High (60-79)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded bg-yellow-500" />
+                  <span className="text-sm text-gray-300">Moderate (40-59)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded bg-green-500" />
+                  <span className="text-sm text-gray-300">Low (0-39)</span>
+                </div>
+              </div>
+
+              {/* Selected State Details */}
+              {selectedState && (
+                <div className="bg-gradient-to-r from-cyan-400/10 to-blue-400/10 border border-cyan-400/30 rounded-lg p-4">
+                  <h3 className="text-lg font-semibold text-cyan-300 mb-3">{selectedState.name}</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div>
+                      <p className="text-gray-400 text-sm">Risk Level</p>
+                      <p className="text-xl font-bold text-cyan-400">{selectedState.risk}%</p>
+                      <p className="text-xs text-gray-500">{getRiskColor(selectedState.risk).label}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-400 text-sm">Active Cases</p>
+                      <p className="text-xl font-bold text-blue-400">{selectedState.cases}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-400 text-sm">Trend</p>
+                      <p className="text-xl font-bold text-orange-400">+{selectedState.trend}%</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-400 text-sm">Status</p>
+                      <p className="text-xl font-bold text-green-400">Active</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Risk Distribution Stats */}
+              <div className="grid grid-cols-3 gap-4">
+                <div className="bg-gradient-to-br from-red-400/10 to-red-600/10 border border-red-400/30 rounded-lg p-4">
+                  <p className="text-red-400 text-sm font-medium">Critical Zones</p>
+                  <p className="text-2xl font-bold text-red-300 mt-1">2</p>
+                </div>
+                <div className="bg-gradient-to-br from-orange-400/10 to-orange-600/10 border border-orange-400/30 rounded-lg p-4">
+                  <p className="text-orange-400 text-sm font-medium">High Risk</p>
+                  <p className="text-2xl font-bold text-orange-300 mt-1">6</p>
+                </div>
+                <div className="bg-gradient-to-br from-green-400/10 to-green-600/10 border border-green-400/30 rounded-lg p-4">
+                  <p className="text-green-400 text-sm font-medium">Under Control</p>
+                  <p className="text-2xl font-bold text-green-300 mt-1">26</p>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </GlassPanel>
     </div>
