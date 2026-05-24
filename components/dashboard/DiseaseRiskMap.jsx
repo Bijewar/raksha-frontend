@@ -5,87 +5,89 @@ import { GlassPanel } from '@/components/base/GlassPanel';
 
 // Disease risk data by state name
 const stateRiskData = {
-  'Andaman and Nicobar': { risk: 30, cases: 45, trend: 0.8 },
-  'Andhra Pradesh': { risk: 42, cases: 234, trend: 1.2 },
-  'Arunachal Pradesh': { risk: 25, cases: 12, trend: 0.3 },
-  'Assam': { risk: 48, cases: 289, trend: 1.8 },
-  'Bihar': { risk: 55, cases: 567, trend: 2.3 },
-  'Chandigarh': { risk: 50, cases: 156, trend: 1.5 },
-  'Chhattisgarh': { risk: 52, cases: 423, trend: 1.9 },
-  'Dadra and Nagar Haveli and Daman and Diu': { risk: 35, cases: 78, trend: 0.6 },
-  'Delhi': { risk: 92, cases: 3245, trend: 8.5 },
-  'Goa': { risk: 38, cases: 134, trend: 0.9 },
-  'Gujarat': { risk: 65, cases: 1567, trend: 4.2 },
-  'Haryana': { risk: 58, cases: 789, trend: 2.8 },
-  'Himachal Pradesh': { risk: 32, cases: 89, trend: 0.6 },
-  'Jharkhand': { risk: 54, cases: 456, trend: 2.1 },
-  'Karnataka': { risk: 60, cases: 1234, trend: 3.2 },
-  'Kerala': { risk: 28, cases: 67, trend: 0.5 },
-  'Ladakh': { risk: 20, cases: 23, trend: 0.2 },
-  'Lakshadweep': { risk: 18, cases: 15, trend: 0.1 },
-  'Madhya Pradesh': { risk: 78, cases: 1956, trend: 6.2 },
-  'Maharashtra': { risk: 85, cases: 2891, trend: 7.8 },
-  'Manipur': { risk: 35, cases: 105, trend: 0.7 },
-  'Meghalaya': { risk: 42, cases: 178, trend: 1.1 },
-  'Mizoram': { risk: 30, cases: 67, trend: 0.4 },
-  'Nagaland': { risk: 28, cases: 45, trend: 0.3 },
-  'Odisha': { risk: 50, cases: 534, trend: 1.9 },
-  'Puducherry': { risk: 45, cases: 256, trend: 1.4 },
-  'Punjab': { risk: 62, cases: 1123, trend: 3.5 },
-  'Rajasthan': { risk: 68, cases: 1789, trend: 4.9 },
-  'Sikkim': { risk: 22, cases: 34, trend: 0.3 },
-  'Tamil Nadu': { risk: 55, cases: 1205, trend: 2.8 },
-  'Telangana': { risk: 48, cases: 612, trend: 1.8 },
-  'Tripura': { risk: 38, cases: 145, trend: 0.8 },
-  'Uttar Pradesh': { risk: 72, cases: 2103, trend: 5.9 },
-  'Uttarakhand': { risk: 40, cases: 267, trend: 1.1 },
-  'West Bengal': { risk: 62, cases: 1456, trend: 3.4 },
+  'Delhi': { risk: 92, cases: 3245, trend: 8.5, disease: 'Dengue' },
+  'Maharashtra': { risk: 85, cases: 2891, trend: 7.8, disease: 'Dengue' },
+  'Madhya Pradesh': { risk: 78, cases: 1956, trend: 6.2, disease: 'Malaria' },
+  'Uttar Pradesh': { risk: 72, cases: 2103, trend: 5.9, disease: 'Dengue' },
+  'Rajasthan': { risk: 68, cases: 1789, trend: 4.9, disease: 'Malaria' },
+  'Gujarat': { risk: 65, cases: 1567, trend: 4.2, disease: 'Dengue' },
+  'West Bengal': { risk: 62, cases: 1456, trend: 3.4, disease: 'Dengue' },
+  'Punjab': { risk: 62, cases: 1123, trend: 3.5, disease: 'Dengue' },
+  'Karnataka': { risk: 60, cases: 1234, trend: 3.2, disease: 'Malaria' },
+  'Haryana': { risk: 58, cases: 789, trend: 2.8, disease: 'Dengue' },
+  'Tamil Nadu': { risk: 55, cases: 1205, trend: 2.8, disease: 'Dengue' },
+  'Bihar': { risk: 55, cases: 567, trend: 2.3, disease: 'Malaria' },
+  'Jharkhand': { risk: 54, cases: 456, trend: 2.1, disease: 'Malaria' },
+  'Chhattisgarh': { risk: 52, cases: 423, trend: 1.9, disease: 'Malaria' },
+  'Chandigarh': { risk: 50, cases: 156, trend: 1.5, disease: 'Dengue' },
+  'Odisha': { risk: 50, cases: 534, trend: 1.9, disease: 'Malaria' },
+  'Assam': { risk: 48, cases: 289, trend: 1.8, disease: 'Dengue' },
+  'Telangana': { risk: 48, cases: 612, trend: 1.8, disease: 'Dengue' },
+  'Puducherry': { risk: 45, cases: 256, trend: 1.4, disease: 'Dengue' },
+  'Andhra Pradesh': { risk: 42, cases: 234, trend: 1.2, disease: 'Dengue' },
+  'Meghalaya': { risk: 42, cases: 178, trend: 1.1, disease: 'Dengue' },
+  'Uttarakhand': { risk: 40, cases: 267, trend: 1.1, disease: 'Dengue' },
+  'Goa': { risk: 38, cases: 134, trend: 0.9, disease: 'Dengue' },
+  'Tripura': { risk: 38, cases: 145, trend: 0.8, disease: 'Dengue' },
+  'Dadra and Nagar Haveli': { risk: 35, cases: 78, trend: 0.6, disease: 'Dengue' },
+  'Manipur': { risk: 35, cases: 105, trend: 0.7, disease: 'Dengue' },
+  'Himachal Pradesh': { risk: 32, cases: 89, trend: 0.6, disease: 'Dengue' },
+  'Mizoram': { risk: 30, cases: 67, trend: 0.4, disease: 'Dengue' },
+  'Andaman and Nicobar': { risk: 30, cases: 45, trend: 0.8, disease: 'Dengue' },
+  'Kerala': { risk: 28, cases: 67, trend: 0.5, disease: 'Dengue' },
+  'Nagaland': { risk: 28, cases: 45, trend: 0.3, disease: 'Dengue' },
+  'Arunachal Pradesh': { risk: 25, cases: 12, trend: 0.3, disease: 'Dengue' },
+  'Sikkim': { risk: 22, cases: 34, trend: 0.3, disease: 'Dengue' },
+  'Ladakh': { risk: 20, cases: 23, trend: 0.2, disease: 'Dengue' },
+  'Lakshadweep': { risk: 18, cases: 15, trend: 0.1, disease: 'Dengue' },
 };
 
 const getRiskColor = (risk) => {
-  if (risk >= 80) return { color: '#ef4444', label: 'Critical' };
-  if (risk >= 60) return { color: '#f97316', label: 'High' };
-  if (risk >= 40) return { color: '#eab308', label: 'Moderate' };
-  return { color: '#22c55e', label: 'Low' };
+  if (risk >= 80) return '#ef4444'; // Red - Critical
+  if (risk >= 60) return '#f97316'; // Orange - High
+  if (risk >= 40) return '#eab308'; // Yellow - Moderate
+  return '#22c55e'; // Green - Low
 };
 
-// Simplified India state shapes with risk levels
-const INDIA_STATES = [
-  { id: 'delhi', name: 'Delhi', risk: 92, cases: 3245, trend: 8.5, x: 65, y: 25, width: 3, height: 2.5 },
-  { id: 'maharashtra', name: 'Maharashtra', risk: 85, cases: 2891, trend: 7.8, x: 20, y: 45, width: 12, height: 14 },
-  { id: 'madhya_pradesh', name: 'Madhya Pradesh', risk: 78, cases: 1956, trend: 6.2, x: 42, y: 35, width: 14, height: 12 },
-  { id: 'uttar_pradesh', name: 'Uttar Pradesh', risk: 72, cases: 2103, trend: 5.9, x: 50, y: 22, width: 18, height: 12 },
-  { id: 'rajasthan', name: 'Rajasthan', risk: 68, cases: 1789, trend: 4.9, x: 28, y: 18, width: 16, height: 18 },
-  { id: 'gujarati', name: 'Gujarat', risk: 65, cases: 1567, trend: 4.2, x: 12, y: 28, width: 12, height: 16 },
-  { id: 'west_bengal', name: 'West Bengal', risk: 62, cases: 1456, trend: 3.4, x: 75, y: 32, width: 10, height: 10 },
-  { id: 'punjab', name: 'Punjab', risk: 62, cases: 1123, trend: 3.5, x: 42, y: 10, width: 8, height: 6 },
-  { id: 'karnataka', name: 'Karnataka', risk: 60, cases: 1234, trend: 3.2, x: 28, y: 55, width: 12, height: 12 },
-  { id: 'haryana', name: 'Haryana', risk: 58, cases: 789, trend: 2.8, x: 53, y: 20, width: 6, height: 5 },
-  { id: 'tamil_nadu', name: 'Tamil Nadu', risk: 55, cases: 1205, trend: 2.8, x: 42, y: 72, width: 12, height: 10 },
-  { id: 'bihar', name: 'Bihar', risk: 55, cases: 567, trend: 2.3, x: 62, y: 28, width: 8, height: 8 },
-  { id: 'odisha', name: 'Odisha', risk: 50, cases: 534, trend: 1.9, x: 70, y: 42, width: 10, height: 10 },
-  { id: 'chandigarh', name: 'Chandigarh', risk: 50, cases: 156, trend: 1.5, x: 48, y: 18, width: 2, height: 2 },
-  { id: 'assam', name: 'Assam', risk: 48, cases: 289, trend: 1.8, x: 82, y: 18, width: 10, height: 8 },
-  { id: 'telangana', name: 'Telangana', risk: 48, cases: 612, trend: 1.8, x: 40, y: 50, width: 10, height: 10 },
-  { id: 'puducherry', name: 'Puducherry', risk: 45, cases: 256, trend: 1.4, x: 45, y: 75, width: 2, height: 2 },
-  { id: 'meghalaya', name: 'Meghalaya', risk: 42, cases: 178, trend: 1.1, x: 80, y: 25, width: 4, height: 4 },
-  { id: 'andhra_pradesh', name: 'Andhra Pradesh', risk: 42, cases: 234, trend: 1.2, x: 40, y: 60, width: 12, height: 12 },
-  { id: 'uttarakhand', name: 'Uttarakhand', risk: 40, cases: 267, trend: 1.1, x: 57, y: 15, width: 6, height: 6 },
-  { id: 'goa', name: 'Goa', risk: 38, cases: 134, trend: 0.9, x: 18, y: 55, width: 3, height: 3 },
-  { id: 'tripura', name: 'Tripura', risk: 38, cases: 145, trend: 0.8, x: 88, y: 32, width: 3, height: 3 },
-  { id: 'dadra_nagar_haveli', name: 'Dadra & Nagar Haveli', risk: 35, cases: 78, trend: 0.6, x: 16, y: 38, width: 3, height: 3 },
-  { id: 'manipur', name: 'Manipur', risk: 35, cases: 105, trend: 0.7, x: 90, y: 28, width: 3, height: 3 },
-  { id: 'himachal_pradesh', name: 'Himachal Pradesh', risk: 32, cases: 89, trend: 0.6, x: 52, y: 10, width: 8, height: 6 },
-  { id: 'andaman_nicobar', name: 'Andaman & Nicobar', risk: 30, cases: 45, trend: 0.8, x: 72, y: 82, width: 2, height: 2 },
-  { id: 'mizoram', name: 'Mizoram', risk: 30, cases: 67, trend: 0.4, x: 92, y: 42, width: 3, height: 3 },
-  { id: 'kerala', name: 'Kerala', risk: 28, cases: 67, trend: 0.5, x: 32, y: 75, width: 6, height: 10 },
-  { id: 'nagaland', name: 'Nagaland', risk: 28, cases: 45, trend: 0.3, x: 88, y: 24, width: 3, height: 3 },
-  { id: 'jharkhand', name: 'Jharkhand', risk: 54, cases: 456, trend: 2.1, x: 68, y: 36, width: 8, height: 8 },
-  { id: 'chhattisgarh', name: 'Chhattisgarh', risk: 52, cases: 423, trend: 1.9, x: 58, y: 42, width: 10, height: 10 },
-  { id: 'arunachal_pradesh', name: 'Arunachal Pradesh', risk: 25, cases: 12, trend: 0.3, x: 85, y: 12, width: 8, height: 8 },
-  { id: 'sikkim', name: 'Sikkim', risk: 22, cases: 34, trend: 0.3, x: 80, y: 16, width: 2, height: 2 },
-  { id: 'ladakh', name: 'Ladakh', risk: 20, cases: 23, trend: 0.2, x: 50, y: 5, width: 8, height: 6 },
-  { id: 'lakshadweep', name: 'Lakshadweep', risk: 18, cases: 15, trend: 0.1, x: 8, y: 70, width: 1, height: 1 },
+const getRiskLabel = (risk) => {
+  if (risk >= 80) return 'Critical';
+  if (risk >= 60) return 'High';
+  if (risk >= 40) return 'Moderate';
+  return 'Low';
+};
+
+// Simplified state regions with realistic coordinates for choropleth
+const INDIA_REGIONS = [
+  { name: 'Delhi', risk: 92, cases: 3245, trend: 8.5, disease: 'Dengue', path: 'M 76.8 28.4 L 77.3 28.4 L 77.3 28.9 L 76.8 28.9 Z', cx: 77, cy: 28.65 },
+  { name: 'Madhya Pradesh', risk: 78, cases: 1956, trend: 6.2, disease: 'Malaria', path: 'M 74.0 21.0 L 82.8 21.0 L 82.8 26.9 L 74.0 26.9 Z', cx: 78.4, cy: 23.95 },
+  { name: 'Maharashtra', risk: 85, cases: 2891, trend: 7.8, disease: 'Dengue', path: 'M 72.6 15.6 L 80.9 15.6 L 80.9 22.0 L 72.6 22.0 Z', cx: 76.75, cy: 18.8 },
+  { name: 'Uttar Pradesh', risk: 72, cases: 2103, trend: 5.9, disease: 'Dengue', path: 'M 77.0 23.8 L 84.3 23.8 L 84.3 30.4 L 77.0 30.4 Z', cx: 80.65, cy: 27.1 },
+  { name: 'Rajasthan', risk: 68, cases: 1789, trend: 4.9, disease: 'Malaria', path: 'M 68.2 23.0 L 78.0 23.0 L 78.0 37.0 L 68.2 37.0 Z', cx: 73.1, cy: 30 },
+  { name: 'Gujarat', risk: 65, cases: 1567, trend: 4.2, disease: 'Dengue', path: 'M 68.1 20.6 L 74.5 20.6 L 74.5 24.5 L 68.1 24.5 Z', cx: 71.3, cy: 22.55 },
+  { name: 'West Bengal', risk: 62, cases: 1456, trend: 3.4, disease: 'Dengue', path: 'M 85.8 21.6 L 89.9 21.6 L 89.9 27.4 L 85.8 27.4 Z', cx: 87.85, cy: 24.5 },
+  { name: 'Punjab', risk: 62, cases: 1123, trend: 3.5, disease: 'Dengue', path: 'M 73.6 29.5 L 76.6 29.5 L 76.6 32.3 L 73.6 32.3 Z', cx: 75.1, cy: 30.9 },
+  { name: 'Karnataka', risk: 60, cases: 1234, trend: 3.2, disease: 'Malaria', path: 'M 74.0 11.5 L 78.6 11.5 L 78.6 18.5 L 74.0 18.5 Z', cx: 76.3, cy: 15 },
+  { name: 'Haryana', risk: 58, cases: 789, trend: 2.8, disease: 'Dengue', path: 'M 76.5 27.0 L 78.0 27.0 L 78.0 30.6 L 76.5 30.6 Z', cx: 77.25, cy: 28.8 },
+  { name: 'Tamil Nadu', risk: 55, cases: 1205, trend: 2.8, disease: 'Dengue', path: 'M 78.6 8.0 L 80.3 8.0 L 80.3 13.6 L 78.6 13.6 Z', cx: 79.45, cy: 10.8 },
+  { name: 'Bihar', risk: 55, cases: 567, trend: 2.3, disease: 'Malaria', path: 'M 82.3 24.3 L 88.3 24.3 L 88.3 27.5 L 82.3 27.5 Z', cx: 85.3, cy: 25.9 },
+  { name: 'Jharkhand', risk: 54, cases: 456, trend: 2.1, disease: 'Malaria', path: 'M 82.2 22.0 L 87.5 22.0 L 87.5 25.3 L 82.2 25.3 Z', cx: 84.85, cy: 23.65 },
+  { name: 'Chhattisgarh', risk: 52, cases: 423, trend: 1.9, disease: 'Malaria', path: 'M 80.6 19.4 L 84.3 19.4 L 84.3 24.0 L 80.6 24.0 Z', cx: 82.45, cy: 21.7 },
+  { name: 'Odisha', risk: 50, cases: 534, trend: 1.9, disease: 'Malaria', path: 'M 83.3 17.7 L 87.5 17.7 L 87.5 22.6 L 83.3 22.6 Z', cx: 85.4, cy: 20.15 },
+  { name: 'Assam', risk: 48, cases: 289, trend: 1.8, disease: 'Dengue', path: 'M 88.0 24.0 L 97.4 24.0 L 97.4 28.3 L 88.0 28.3 Z', cx: 92.7, cy: 26.15 },
+  { name: 'Telangana', risk: 48, cases: 612, trend: 1.8, disease: 'Dengue', path: 'M 77.3 15.8 L 81.9 15.8 L 81.9 19.9 L 77.3 19.9 Z', cx: 79.6, cy: 17.85 },
+  { name: 'Andhra Pradesh', risk: 42, cases: 234, trend: 1.2, disease: 'Dengue', path: 'M 76.8 12.6 L 84.7 12.6 L 84.7 18.5 L 76.8 18.5 Z', cx: 80.75, cy: 15.55 },
+  { name: 'Meghalaya', risk: 42, cases: 178, trend: 1.1, disease: 'Dengue', path: 'M 90.0 24.7 L 92.3 24.7 L 92.3 26.2 L 90.0 26.2 Z', cx: 91.15, cy: 25.45 },
+  { name: 'Goa', risk: 38, cases: 134, trend: 0.9, disease: 'Dengue', path: 'M 73.7 14.8 L 74.3 14.8 L 74.3 15.9 L 73.7 15.9 Z', cx: 74, cy: 15.35 },
+  { name: 'Kerala', risk: 28, cases: 67, trend: 0.5, disease: 'Dengue', path: 'M 76.2 8.3 L 77.6 8.3 L 77.6 12.8 L 76.2 12.8 Z', cx: 76.9, cy: 10.55 },
+  { name: 'Himachal Pradesh', risk: 32, cases: 89, trend: 0.6, disease: 'Dengue', path: 'M 75.5 30.2 L 78.9 30.2 L 78.9 33.1 L 75.5 33.1 Z', cx: 77.2, cy: 31.65 },
+  { name: 'Uttarakhand', risk: 40, cases: 267, trend: 1.1, disease: 'Dengue', path: 'M 77.6 28.8 L 81.0 28.8 L 81.0 31.5 L 77.6 31.5 Z', cx: 79.3, cy: 30.15 },
+  { name: 'Tripura', risk: 38, cases: 145, trend: 0.8, disease: 'Dengue', path: 'M 91.2 22.6 L 92.2 22.6 L 92.2 23.9 L 91.2 23.9 Z', cx: 91.7, cy: 23.25 },
+  { name: 'Manipur', risk: 35, cases: 105, trend: 0.7, disease: 'Dengue', path: 'M 93.0 23.8 L 94.8 23.8 L 94.8 25.2 L 93.0 25.2 Z', cx: 93.9, cy: 24.5 },
+  { name: 'Mizoram', risk: 30, cases: 67, trend: 0.4, disease: 'Dengue', path: 'M 92.2 21.4 L 93.5 21.4 L 93.5 23.8 L 92.2 23.8 Z', cx: 92.85, cy: 22.6 },
+  { name: 'Nagaland', risk: 28, cases: 45, trend: 0.3, disease: 'Dengue', path: 'M 93.3 25.1 L 94.9 25.1 L 94.9 27.0 L 93.3 27.0 Z', cx: 94.1, cy: 26.05 },
+  { name: 'Arunachal Pradesh', risk: 25, cases: 12, trend: 0.3, disease: 'Dengue', path: 'M 91.5 26.6 L 97.4 26.6 L 97.4 29.0 L 91.5 29.0 Z', cx: 94.45, cy: 27.8 },
+  { name: 'Sikkim', risk: 22, cases: 34, trend: 0.3, disease: 'Dengue', path: 'M 87.3 27.1 L 88.6 27.1 L 88.6 28.2 L 87.3 28.2 Z', cx: 87.95, cy: 27.65 },
+  { name: 'Ladakh', risk: 20, cases: 23, trend: 0.2, disease: 'Dengue', path: 'M 75.6 32.6 L 79.6 32.6 L 79.6 35.4 L 75.6 35.4 Z', cx: 77.6, cy: 34 },
 ];
 
 export function DiseaseRiskMap() {
@@ -101,66 +103,61 @@ export function DiseaseRiskMap() {
 
       <GlassPanel>
         <div className="space-y-6">
-          {/* Map Container - SVG based India map */}
-          <div className="bg-gradient-to-br from-slate-900 to-slate-950 rounded-lg overflow-hidden border border-cyan-400/20 p-4">
+          {/* Choropleth Map Container */}
+          <div className="bg-gradient-to-br from-slate-900 to-slate-950 rounded-lg overflow-hidden border border-cyan-400/20 p-2">
             <svg
-              viewBox="0 0 100 85"
+              viewBox="60 7 50 30"
               className="w-full"
               preserveAspectRatio="xMidYMid meet"
+              style={{ minHeight: '400px' }}
             >
+              {/* Background */}
               <defs>
-                <filter id="hover-glow">
-                  <feGaussianBlur stdDeviation="0.5" result="coloredBlur" />
+                <filter id="glow-effect">
+                  <feGaussianBlur stdDeviation="0.3" result="coloredBlur" />
                   <feMerge>
                     <feMergeNode in="coloredBlur" />
                     <feMergeNode in="SourceGraphic" />
                   </feMerge>
                 </filter>
               </defs>
+              
+              <rect x="60" y="7" width="50" height="30" fill="#0f172a" opacity="0.3" />
 
-              {/* Background */}
-              <rect width="100" height="85" fill="#0f172a" opacity="0.5" />
-
-              {/* State regions */}
-              {INDIA_STATES.map((state) => {
-                const { color } = getRiskColor(state.risk);
-                const isHovered = hoveredState?.id === state.id;
-                const isSelected = selectedState?.id === state.id;
+              {/* State regions - choropleth */}
+              {INDIA_REGIONS.map((state) => {
+                const fillColor = getRiskColor(state.risk);
+                const isHovered = hoveredState?.name === state.name;
+                const isSelected = selectedState?.name === state.name;
 
                 return (
-                  <g key={state.id}>
-                    <rect
-                      x={state.x}
-                      y={state.y}
-                      width={state.width}
-                      height={state.height}
-                      fill={color}
-                      stroke={isSelected ? '#00d9ff' : '#334155'}
-                      strokeWidth={isSelected ? 0.5 : 0.3}
-                      opacity={isHovered || isSelected ? 0.95 : 0.8}
+                  <g key={state.name}>
+                    <path
+                      d={state.path}
+                      fill={fillColor}
+                      stroke={isSelected ? '#00d9ff' : '#1e293b'}
+                      strokeWidth={isSelected ? 0.08 : 0.03}
+                      opacity={isHovered || isSelected ? 0.95 : 0.85}
                       className="cursor-pointer transition-all duration-200"
-                      filter={isHovered || isSelected ? 'url(#hover-glow)' : 'none'}
+                      filter={isHovered || isSelected ? 'url(#glow-effect)' : 'none'}
                       onMouseEnter={() => setHoveredState(state)}
                       onMouseLeave={() => setHoveredState(null)}
                       onClick={() => setSelectedState(state)}
                     />
-                    
-                    {/* State abbreviation label */}
-                    {state.width > 4 && (
-                      <text
-                        x={state.x + state.width / 2}
-                        y={state.y + state.height / 2}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                        className="pointer-events-none select-none"
-                        fontSize={Math.max(1.2, state.width * 0.3)}
-                        fontWeight="600"
-                        fill="#ffffff"
-                        opacity={isHovered || isSelected ? 1 : 0.5}
-                      >
-                        {state.name.split(' ')[0].substring(0, 3)}
-                      </text>
-                    )}
+                    {/* State label */}
+                    <text
+                      x={state.cx}
+                      y={state.cy}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      className="pointer-events-none select-none"
+                      fontSize="0.5"
+                      fontWeight="600"
+                      fill="#ffffff"
+                      opacity={isHovered || isSelected ? 0.95 : 0.4}
+                    >
+                      {state.name.substring(0, 3)}
+                    </text>
                   </g>
                 );
               })}
@@ -187,27 +184,72 @@ export function DiseaseRiskMap() {
             </div>
           </div>
 
-          {/* Selected State Details */}
-          {selectedState && (
+          {/* Hovered State Tooltip */}
+          {hoveredState && !selectedState && (
             <div className="bg-gradient-to-r from-cyan-400/10 to-blue-400/10 border border-cyan-400/30 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-cyan-300 mb-3">{selectedState.name}</h3>
+              <h3 className="text-lg font-semibold text-cyan-300 mb-3">{hoveredState.name}</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div>
+                  <p className="text-gray-400 text-sm">Disease</p>
+                  <p className="text-lg font-semibold text-blue-400">{hoveredState.disease}</p>
+                </div>
+                <div>
                   <p className="text-gray-400 text-sm">Risk Level</p>
-                  <p className="text-xl font-bold text-cyan-400">{selectedState.risk}%</p>
-                  <p className="text-xs text-gray-500">{getRiskColor(selectedState.risk).label}</p>
+                  <p className="text-xl font-bold" style={{ color: getRiskColor(hoveredState.risk) }}>{hoveredState.risk}%</p>
+                  <p className="text-xs text-gray-500">{getRiskLabel(hoveredState.risk)}</p>
                 </div>
                 <div>
                   <p className="text-gray-400 text-sm">Active Cases</p>
-                  <p className="text-xl font-bold text-blue-400">{selectedState.cases}</p>
+                  <p className="text-xl font-bold text-orange-400">{hoveredState.cases}</p>
                 </div>
                 <div>
                   <p className="text-gray-400 text-sm">Trend</p>
-                  <p className="text-xl font-bold text-orange-400">+{selectedState.trend}%</p>
+                  <p className="text-xl font-bold text-yellow-400">+{hoveredState.trend.toFixed(1)}%</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Selected State Details */}
+          {selectedState && (
+            <div className="bg-gradient-to-r from-cyan-400/10 to-blue-400/10 border border-cyan-400/30 rounded-lg p-4">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h3 className="text-2xl font-bold text-cyan-300">{selectedState.name}</h3>
+                  <p className="text-sm text-gray-400 mt-1">Click on another state to switch selection</p>
+                </div>
+                <button
+                  onClick={() => setSelectedState(null)}
+                  className="text-gray-400 hover:text-cyan-300 transition-colors"
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div>
+                  <p className="text-gray-400 text-sm uppercase text-xs">Disease</p>
+                  <p className="text-lg font-semibold text-blue-400 mt-1">{selectedState.disease}</p>
                 </div>
                 <div>
-                  <p className="text-gray-400 text-sm">Status</p>
-                  <p className="text-xl font-bold text-green-400">Active</p>
+                  <p className="text-gray-400 text-sm uppercase text-xs">Risk Level</p>
+                  <div className="mt-1 flex items-center gap-2">
+                    <div
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: getRiskColor(selectedState.risk) }}
+                    />
+                    <p className="text-lg font-bold" style={{ color: getRiskColor(selectedState.risk) }}>
+                      {selectedState.risk}%
+                    </p>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1">{getRiskLabel(selectedState.risk)}</p>
+                </div>
+                <div>
+                  <p className="text-gray-400 text-sm uppercase text-xs">Active Cases</p>
+                  <p className="text-lg font-bold text-orange-400 mt-1">{selectedState.cases}</p>
+                </div>
+                <div>
+                  <p className="text-gray-400 text-sm uppercase text-xs">Trend</p>
+                  <p className="text-lg font-bold text-yellow-400 mt-1">+{selectedState.trend.toFixed(1)}%</p>
                 </div>
               </div>
             </div>
