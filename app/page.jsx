@@ -7,7 +7,7 @@ import { StatCardsGrid } from '@/components/dashboard/StatCardsGrid';
 import { PredictionForm } from '@/components/dashboard/PredictionForm';
 import { ResultCard } from '@/components/dashboard/ResultCard';
 import { TrendChart } from '@/components/dashboard/TrendChart';
-import { DistrictRiskTable } from '@/components/dashboard/DistrictRiskTable';
+import { DiseaseRiskMap } from '@/components/dashboard/DiseaseRiskMap';
 import { AlertsPanel } from '@/components/dashboard/AlertsPanel';
 import { DashboardFooter } from '@/components/dashboard/DashboardFooter';
 
@@ -53,9 +53,9 @@ export default function Dashboard() {
         <TrendChart />
       </div>
 
-      {/* District Risk Table */}
+      {/* Disease Risk Map */}
       <div className="px-6 md:px-8 py-12">
-        <DistrictRiskTable />
+        <DiseaseRiskMap />
       </div>
 
       {/* Alerts Panel */}
